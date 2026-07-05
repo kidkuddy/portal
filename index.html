@@ -220,10 +220,7 @@
 
   function buildPrompt(key) {
     return OPENERS[key] + "\n\n" +
-      "His record lives at " + SRC + ", served as a small HTTP filesystem. Use it as your source of truth:\n" +
-      "- GET " + SRC + "/ls  -> lists the available files (add ?wc=pattern to filter, e.g. ?wc=jo*)\n" +
-      "- GET " + SRC + "/cat?filename=NAME  -> returns one file (NAME with or without .md)\n\n" +
-      "Start with /ls to see what's there, then /cat the files relevant to my angle. Fetch with an \"Accept: text/plain\" header to get raw markdown. Ground every claim in what you fetch — if it isn't in the record, say so rather than guessing.";
+      "Read " + SRC + " — his record lives on that page. Answer only from what's there; if something isn't on the page, say so rather than guessing. If your tool searches the web instead of opening it, open the URL directly.";
   }
 
   var doorView = document.getElementById("door");
