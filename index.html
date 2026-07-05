@@ -1,21 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sofiene Barka</title>
+<title>Mohamed Sofiene Barka</title>
 <meta name="description" content="Point your own AI at the record and ask.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&display=swap" rel="stylesheet">
 <style>
   :root {
+    /* dark is the default */
+    --ink: #f3f2ee;
+    --paper: #0a0a0a;
+    --hair: rgba(243, 242, 238, 0.18);
+    --mute: rgba(243, 242, 238, 0.5);
+    --serif: "Bodoni Moda", Didot, "Bodoni MT", "Playfair Display", "Times New Roman", serif;
+    --sans: "Helvetica Neue", Arial, "Segoe UI", system-ui, sans-serif;
+  }
+  html[data-theme="light"] {
     --ink: #0b0b0b;
     --paper: #ffffff;
     --hair: rgba(11, 11, 11, 0.18);
     --mute: rgba(11, 11, 11, 0.5);
-    --serif: "Bodoni Moda", Didot, "Bodoni MT", "Playfair Display", "Times New Roman", serif;
-    --sans: "Helvetica Neue", Arial, "Segoe UI", system-ui, sans-serif;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -27,6 +34,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
+    transition: background .4s ease, color .4s ease;
   }
   ::selection { background: var(--ink); color: var(--paper); }
 
@@ -49,51 +57,59 @@
     margin: 0;
   }
 
+  /* ---------- theme toggle ---------- */
+  .toggle {
+    position: fixed; top: 20px; right: 22px; z-index: 10;
+    width: 34px; height: 34px; padding: 0;
+    background: none; border: 1px solid var(--hair); border-radius: 50%;
+    color: var(--ink); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.86rem; line-height: 1;
+    transition: border-color .25s ease, transform .4s ease;
+  }
+  .toggle:hover { border-color: var(--ink); transform: rotate(18deg); }
+  .toggle:focus-visible { outline: none; border-color: var(--ink); }
+
   /* ---------- front door ---------- */
   .masthead {
     margin: auto 0;
     text-align: center;
   }
-  .masthead .kicker { margin-bottom: clamp(28px, 6vh, 56px); }
+  .masthead .kicker { margin-bottom: clamp(24px, 5vh, 44px); }
   .name {
     font-weight: 500;
     font-style: normal;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    line-height: 0.92;
-    font-size: clamp(3rem, 16vw, 8rem);
+    line-height: 0.9;
+    font-size: clamp(2.7rem, 13vw, 7rem);
     margin: 0;
   }
   .rule {
     width: 46px; height: 1px; background: var(--ink);
-    margin: clamp(28px, 6vh, 52px) auto;
+    margin: clamp(26px, 5vh, 46px) auto;
   }
-  .doors {
-    display: flex; justify-content: center; align-items: baseline;
-    gap: clamp(32px, 9vw, 84px);
+  .entry {
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(20px, 4vh, 30px);
   }
-  .door {
+  .cta {
     font-family: var(--sans);
-    background: none; border: none; padding: 6px 2px; margin: 0;
-    color: var(--ink); cursor: pointer;
-    text-transform: uppercase; letter-spacing: 0.28em;
-    font-size: 0.8rem; font-weight: 500;
-    position: relative;
+    background: none; color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 16px 34px; margin: 0; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.26em;
+    font-size: 0.74rem; font-weight: 500;
+    transition: background .28s ease, color .28s ease;
   }
-  .door::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: -3px;
-    height: 1px; background: var(--ink);
-    transform: scaleX(0); transform-origin: center;
-    transition: transform .28s ease;
+  .cta:hover, .cta:focus-visible { background: var(--ink); color: var(--paper); outline: none; }
+  .cta .arrow { margin-left: 12px; }
+  .cool {
+    font-family: var(--sans);
+    text-transform: uppercase; letter-spacing: 0.24em;
+    font-size: 0.6rem; font-weight: 500; color: var(--mute);
   }
-  .door:hover::after, .door:focus-visible::after { transform: scaleX(1); }
-  .door:focus-visible { outline: none; }
-  .door.disabled { cursor: default; color: var(--mute); }
-  .door.disabled::after { display: none; }
-  .door.disabled small {
-    display: block; margin-top: 8px;
-    letter-spacing: 0.2em; font-size: 0.55rem; font-style: normal;
-  }
+  .cool em { font-style: normal; }
 
   /* ---------- light page ---------- */
   .view { display: none; flex: 1; flex-direction: column; }
@@ -111,7 +127,7 @@
   .lead { margin: clamp(48px, 12vh, 120px) 0 0; }
   .lead h1 {
     font-weight: 400; font-size: clamp(2.4rem, 7.5vw, 4.6rem);
-    line-height: 1.02; letter-spacing: -0.01em; margin: 18px 0 0; max-width: 12ch;
+    line-height: 1.02; letter-spacing: -0.01em; margin: 0; max-width: 12ch;
   }
   .lead h1 em { font-style: italic; }
 
@@ -135,14 +151,29 @@
     content: " ✓"; letter-spacing: 0; color: var(--ink);
   }
 
-  .status {
-    font-family: var(--sans); text-transform: uppercase;
-    letter-spacing: 0.24em; font-size: 0.62rem; font-weight: 500;
-    color: var(--mute); margin: 28px 0 0; min-height: 1em;
-    opacity: 0; transition: opacity .3s ease;
+  /* ---------- post-copy reveal ---------- */
+  .reveal {
+    margin: clamp(30px, 6vh, 54px) 0 0;
+    border: 1px solid var(--ink);
+    padding: clamp(22px, 4vh, 32px) clamp(20px, 4vw, 34px);
+    max-height: 0; opacity: 0; overflow: hidden;
+    padding-top: 0; padding-bottom: 0; border-color: transparent;
+    transition: max-height .45s ease, opacity .4s ease, padding .45s ease, border-color .4s ease;
   }
-  .status.show { opacity: 1; }
-  .status strong { color: var(--ink); font-weight: 500; }
+  .reveal.show {
+    max-height: 320px; opacity: 1; border-color: var(--ink);
+    padding-top: clamp(22px, 4vh, 32px); padding-bottom: clamp(22px, 4vh, 32px);
+  }
+  .reveal .kicker { margin-bottom: 12px; }
+  .reveal .headline {
+    font-weight: 400; font-style: italic;
+    font-size: clamp(1.5rem, 4.4vw, 2.1rem); line-height: 1.12; margin: 0;
+  }
+  .reveal .headline strong { font-style: normal; font-weight: 500; }
+  .reveal .sub {
+    font-family: var(--sans); font-size: 0.82rem; line-height: 1.5;
+    color: var(--mute); margin: 14px 0 0; letter-spacing: 0.01em;
+  }
 
   .foot { font-family: var(--sans); letter-spacing: 0.24em; text-transform: uppercase;
     font-size: 0.55rem; color: var(--mute); margin-top: auto; padding-top: 56px; }
@@ -154,18 +185,17 @@
 </style>
 </head>
 <body>
+<button class="toggle" id="theme" aria-label="Toggle light and dark mode" title="Toggle light / dark">☀</button>
 <main>
   <!-- front door -->
   <section id="door" class="view active">
     <div class="masthead">
-      <p class="kicker">The Record — MMXXVI</p>
-      <h1 class="name">Sofiene<br>Barka</h1>
+      <p class="kicker">Also known as Niemand</p>
+      <h1 class="name">Mohamed<br>Sofiene<br>Barka</h1>
       <div class="rule"></div>
-      <div class="doors">
-        <button class="door" id="pick-light">Light</button>
-        <button class="door disabled" id="pick-cool" aria-disabled="true" tabindex="-1">
-          Cool<small>Still cooking</small>
-        </button>
+      <div class="entry">
+        <button class="cta" id="pick-light">Get to know me <span class="arrow">→</span></button>
+        <span class="cool" id="pick-cool">The cool way — <em>still cooking</em></span>
       </div>
     </div>
   </section>
@@ -178,7 +208,6 @@
     </div>
 
     <div class="lead">
-      <p class="kicker">Ask your own AI</p>
       <h1>What brings you <em>here?</em></h1>
     </div>
 
@@ -201,9 +230,14 @@
       </button>
     </div>
 
-    <p class="status" id="status">Choose one — the prompt copies itself.</p>
+    <!-- appears only after a prompt is copied -->
+    <div class="reveal" id="reveal">
+      <p class="kicker">Ask your own AI</p>
+      <p class="headline"><strong>Copied.</strong> Now paste it into your AI.</p>
+      <p class="sub" id="revealSub">Drop it into ChatGPT, Claude, or any AI that browses the web — it'll open the record and answer as if it already knows me.</p>
+    </div>
 
-    <p class="foot">Paste it into ChatGPT, Claude, or any AI that browses the web.</p>
+    <p class="foot">Your AI reads the record. You ask the questions.</p>
   </section>
 </main>
 
@@ -223,9 +257,26 @@
       "Read " + SRC + " — his record lives on that page. Answer only from what's there; if something isn't on the page, say so rather than guessing. If your tool searches the web instead of opening it, open the URL directly.";
   }
 
+  /* ---- theme ---- */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById("theme");
+  function applyTheme(mode) {
+    root.setAttribute("data-theme", mode);
+    themeBtn.textContent = mode === "dark" ? "☀" : "☾";
+    try { localStorage.setItem("me-theme", mode); } catch (e) {}
+  }
+  var saved;
+  try { saved = localStorage.getItem("me-theme"); } catch (e) {}
+  applyTheme(saved === "light" ? "light" : "dark"); // default: dark
+  themeBtn.addEventListener("click", function () {
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  /* ---- views ---- */
   var doorView = document.getElementById("door");
   var lightView = document.getElementById("light");
-  var statusEl = document.getElementById("status");
+  var reveal = document.getElementById("reveal");
+  var revealSub = document.getElementById("revealSub");
 
   function show(view) {
     doorView.classList.toggle("active", view === "door");
@@ -249,17 +300,14 @@
       copy(text, function () {
         picks.forEach(function (p) { p.classList.remove("copied"); });
         btn.classList.add("copied");
-        setStatus(true, "Copied — paste it into your AI.");
+        revealSub.innerHTML = "Drop it into ChatGPT, Claude, or any AI that browses the web — it'll open the record and answer as if it already knows me.";
+        reveal.classList.add("show");
       }, function () {
-        setStatus(true, "Press Cmd/Ctrl + C to copy, then paste into your AI.");
+        revealSub.innerHTML = "Couldn't copy automatically — press Cmd/Ctrl + C, then paste it into ChatGPT, Claude, or any AI that browses the web.";
+        reveal.classList.add("show");
       });
     });
   });
-
-  function setStatus(strong, msg) {
-    statusEl.innerHTML = strong ? "<strong>" + msg + "</strong>" : msg;
-    statusEl.classList.add("show");
-  }
 
   function copy(text, ok, fail) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
